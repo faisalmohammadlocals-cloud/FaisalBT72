@@ -10,25 +10,25 @@ const lanes = [
 
 export default function Page() {
     return (
-        <main className="min-h-screen bg-neutral-950 text-white font-sans p-8">
-            <header className="max-w-7xl mx-auto mb-8">
-                <h1 className="text-3xl sm:text-4xl font-extrabold">Free-to-Play Showcase</h1>
-                <p className="mt-2 text-neutral-400">Browse rotating lanes of free-to-play titles by platform.</p>
+        <main className="main">
+            <header className="header">
+                <h1>Free-to-Play Showcase</h1>
+                <p>Browse rotating lanes of free-to-play titles by platform.</p>
             </header>
 
-            <section className="space-y-8">
+            <section className="section">
                 {lanes.map((lane, idx) => {
                     const laneGames = games.filter(g => g.platform === lane.label);
                     if (!laneGames.length) return null;
                     return (
-                        <div key={lane.id} className="max-w-full overflow-hidden">
-                            <div className="max-w-7xl mx-auto px-2">
-                                <div className="flex items-center justify-between mb-3">
-                                    <h2 className="text-xl font-semibold">{lane.label}</h2>
+                        <div key={lane.id} className="lane-wrapper">
+                            <div className="lane-container">
+                                <div className="lane-header">
+                                    <h2>{lane.label}</h2>
                                 </div>
 
                                 <div className={`marquee marquee--${lane.speed}`} aria-hidden="false">
-                                    <div className="marquee-track flex gap-4 items-center">
+                                    <div className="marquee-track">
                                         {laneGames.map(game => (
                                             <GameCard key={game.id} game={game} />
                                         ))}
@@ -43,7 +43,7 @@ export default function Page() {
                 })}
             </section>
 
-            <footer className="max-w-7xl mx-auto mt-12 text-sm text-neutral-500">Placeholder images via placehold.co</footer>
+            <footer className="footer">Placeholder images via placehold.co</footer>
         </main>
     );
 }

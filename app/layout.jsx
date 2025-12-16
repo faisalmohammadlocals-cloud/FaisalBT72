@@ -10,10 +10,8 @@ export default function RootLayout({ children }) {
             <head>
                 <link rel="icon" href="/favicon.svg" sizes="any" />
             </head>
-            <body className="antialiased text-black bg-white">
-                <div className="min-h-screen flex items-center justify-center">
-                    {children}
-                </div>
+            <body>
+                {children}
             </body>
         </html>
     );

@@ -1,11 +1,12 @@
-# Free-to-Play Rotating Lanes (Next.js + Tailwind)
+# Free-to-Play Rotating Lanes (Next.js)
 
-This is a single-page Next.js app that displays free-to-play games in continuously rotating lanes, styled with Tailwind CSS.
+This is a single-page Next.js app that displays free-to-play games in continuously rotating lanes, styled with vanilla CSS.
 
 Features:
 - Lane-based horizontal scrolling (continuous marquee)
 - Placeholder images (placehold.co)
 - Responsive layout and platform tags
+- Pure CSS styling (no build dependencies)
 
 Run locally:
 
@@ -15,8 +16,8 @@ npm run dev
 ```
 
 Notes:
-- Tailwind must be installed and configured in the project (this repository contains `tailwind.config.js` and Tailwind directives in `styles/globals.css`).
-- Files added: `data/games.js`, `app/components/GameCard.jsx`, updated `app/page.jsx`, `styles/globals.css`, `tailwind.config.js`.
+- Uses vanilla CSS for styling - no Tailwind or CSS-in-JS dependencies
+- Files: `data/games.js`, `app/components/GameCard.jsx`, `app/page.jsx`, `styles/globals.css`
 #faisal
 
 # Next.js on Netlify Platform Starter
