@@ -1,12 +1,7 @@
 import '../styles/globals.css';
-import { Footer } from '../components/footer';
-import { Header } from '../components/header';
 
 export const metadata = {
-    title: {
-        template: '%s | Netlify',
-        default: 'Netlify Starter'
-    }
+    title: 'Hello Faisal'
 };
 
 export default function RootLayout({ children }) {
@@ -15,13 +10,9 @@ export default function RootLayout({ children }) {
             <head>
                 <link rel="icon" href="/favicon.svg" sizes="any" />
             </head>
-            <body className="antialiased text-white bg-blue-900">
-                <div className="flex flex-col min-h-screen px-6 bg-noise sm:px-12">
-                    <div className="flex flex-col w-full max-w-5xl mx-auto grow">
-                        <Header />
-                        <main className="grow">{children}</main>
-                        <Footer />
-                    </div>
+            <body className="antialiased text-black bg-white">
+                <div className="min-h-screen flex items-center justify-center">
+                    {children}
                 </div>
             </body>
         </html>

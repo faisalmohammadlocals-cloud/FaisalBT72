@@ -1,3 +1,2 @@
-[build]
-  publish = ".next"
-  command = "npm run build"
+[comment]
+# Netlify starter config removed. This file is intentionally left minimal.

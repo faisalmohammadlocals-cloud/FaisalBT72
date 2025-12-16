@@ -1,10 +1,8 @@
-const rewrite = async (request, context) => {
-    const path = context.geo?.country?.code === 'AU' ? '/edge/australia' : '/edge/not-australia';
-    return new URL(path, request.url);
-};
+// Netlify edge rewrite removed as part of removing starter template content.
+// If you still need Geo-based rewrites, re-add an appropriate function here.
 
-export const config = {
-    path: '/edge'
-};
+export const config = { path: "/edge" };
 
-export default rewrite;
+export default function noop(request) {
+    return request.url;
+}
