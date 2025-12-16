@@ -1,10 +1,10 @@
-import { SiWindows, SiPlaystation, SiXbox, SiAndroid } from 'react-icons/si';
+import { FaWindows, FaPlaystation, FaXbox, FaMobileAlt } from 'react-icons/fa';
 
 const platformIcons = {
-  PC: <SiWindows />,
-  PlayStation: <SiPlaystation />,
-  Xbox: <SiXbox />,
-  Mobile: <SiAndroid />,
+  PC: <FaWindows />,
+  PlayStation: <FaPlaystation />,
+  Xbox: <FaXbox />,
+  Mobile: <FaMobileAlt />,
 };
 
 export default function GameCard({ game }) {
