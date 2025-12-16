@@ -5,6 +5,13 @@ export default {
     './pages/**/*.{js,jsx,ts,tsx}',
     './components/**/*.{js,jsx,ts,tsx}',
   ],
+  safelist: [
+    'text-xl',
+    'text-2xl',
+    'text-3xl',
+    'text-4xl',
+    'text-5xl'
+  ],
   theme: {
     extend: {
       colors: {
