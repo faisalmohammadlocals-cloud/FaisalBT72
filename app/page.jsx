@@ -1,16 +1,23 @@
 import GameCard from './components/GameCard';
+import ImageCarouselLane from './components/ImageCarouselLane';
+import GenreHeader from './components/GenreHeader';
 import games from '../data/games';
 
 /**
- * SEAMLESS LOOPING ANIMATION LANES
+ * BOUNCING BACK-AND-FORTH ANIMATION LANES
  * 
- * Each lane has a different speed to create visual interest:
- * - Slow: PC and Mobile (2s per card)
- * - Medium: PlayStation (1.75s per card)
- * - Fast: Xbox (1.22s per card)
+ * Game lanes now feature a slow-paced bouncing animation that moves
+ * cards gently back and forth, creating a soft, organic motion effect.
  * 
- * The CSS animation will smoothly scroll these lanes infinitely
- * with no visible breaks or pauses.
+ * Animation speeds:
+ * - PC: 8 seconds (slow gentle bounce)
+ * - PlayStation: 7 seconds (medium bounce)
+ * - Xbox: 6 seconds (slightly quicker bounce)
+ * - Mobile: 7 seconds (mobile-optimized pace)
+ * 
+ * Note: This bouncing animation does NOT require DOM duplication
+ * like the previous seamless looping did. Items move in place rather
+ * than scrolling off-screen.
  */
 const lanes = [
     { id: 'pc', label: 'PC', speed: 'slow' },
@@ -22,10 +29,23 @@ const lanes = [
 export default function Page() {
     return (
         <main className="main">
+            {/* Genre Navigation Header */}
+            <GenreHeader />
+
             <header className="header">
                 <h1>Free-to-Play Showcase</h1>
                 <p>Browse rotating lanes of free-to-play titles by platform.</p>
             </header>
+
+            {/* Full-Width Image Carousel Lane */}
+            <section className="image-carousel-section">
+                <div className="lane-container">
+                    <div className="lane-header">
+                        <h2>Featured Images</h2>
+                    </div>
+                    <ImageCarouselLane games={games} />
+                </div>
+            </section>
 
             <section className="section">
                 {lanes.map((lane, idx) => {
@@ -40,32 +60,29 @@ export default function Page() {
 
                                 {/* 
                                   MARQUEE CONTAINER
-                                  .marquee: Hides overflow to create the scrolling viewport
+                                  .marquee: Hides overflow to create the bouncing viewport
                                   .marquee--{speed}: Applies animation speed (slow/medium/fast)
                                 */}
                                 <div className={`marquee marquee--${lane.speed}`} aria-hidden="false">
                                     {/* 
                                       MARQUEE TRACK (Animated Element)
-                                      Contains two identical sets of game cards for seamless looping:
+                                      Contains a SINGLE set of game cards for bouncing animation:
                                       
-                                      1. Original set: Slides out to the left
-                                      2. Duplicate set: Slides in from the right
+                                      Unlike the previous seamless looping that required DOM duplication,
+                                      the bouncing animation moves the entire track back and forth in place.
                                       
-                                      When the animation reaches 100% (moved -50%):
-                                      - First set is completely off-screen
-                                      - Duplicate set fills the entire viewport
-                                      - Animation resets imperceptibly because layouts are identical
+                                      Animation behavior:
+                                      0% → Centered position (0 offset)
+                                      50% → Maximum left offset (-15%)
+                                      100% → Back to center (smooth return)
                                       
-                                      This creates the illusion of an infinite loop!
+                                      The ease-in-out timing creates a natural, organic bouncing motion
+                                      that feels gentle and visually appealing.
                                     */}
                                     <div className="marquee-track">
-                                        {/* Original game cards */}
+                                        {/* Single set of game cards (no duplicates needed) */}
                                         {laneGames.map(game => (
                                             <GameCard key={game.id} game={game} />
-                                        ))}
-                                        {/* Duplicate game cards for seamless looping */}
-                                        {laneGames.map(game => (
-                                            <GameCard key={`${game.id}-dup`} game={game} />
                                         ))}
                                     </div>
                                 </div>
