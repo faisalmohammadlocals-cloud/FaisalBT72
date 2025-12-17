@@ -1,6 +1,17 @@
 import GameCard from './components/GameCard';
 import games from '../data/games';
 
+/**
+ * SEAMLESS LOOPING ANIMATION LANES
+ * 
+ * Each lane has a different speed to create visual interest:
+ * - Slow: PC and Mobile (2s per card)
+ * - Medium: PlayStation (1.75s per card)
+ * - Fast: Xbox (1.22s per card)
+ * 
+ * The CSS animation will smoothly scroll these lanes infinitely
+ * with no visible breaks or pauses.
+ */
 const lanes = [
     { id: 'pc', label: 'PC', speed: 'slow' },
     { id: 'ps', label: 'PlayStation', speed: 'medium' },
@@ -27,11 +38,32 @@ export default function Page() {
                                     <h2>{lane.label}</h2>
                                 </div>
 
+                                {/* 
+                                  MARQUEE CONTAINER
+                                  .marquee: Hides overflow to create the scrolling viewport
+                                  .marquee--{speed}: Applies animation speed (slow/medium/fast)
+                                */}
                                 <div className={`marquee marquee--${lane.speed}`} aria-hidden="false">
+                                    {/* 
+                                      MARQUEE TRACK (Animated Element)
+                                      Contains two identical sets of game cards for seamless looping:
+                                      
+                                      1. Original set: Slides out to the left
+                                      2. Duplicate set: Slides in from the right
+                                      
+                                      When the animation reaches 100% (moved -50%):
+                                      - First set is completely off-screen
+                                      - Duplicate set fills the entire viewport
+                                      - Animation resets imperceptibly because layouts are identical
+                                      
+                                      This creates the illusion of an infinite loop!
+                                    */}
                                     <div className="marquee-track">
+                                        {/* Original game cards */}
                                         {laneGames.map(game => (
                                             <GameCard key={game.id} game={game} />
                                         ))}
+                                        {/* Duplicate game cards for seamless looping */}
                                         {laneGames.map(game => (
                                             <GameCard key={`${game.id}-dup`} game={game} />
                                         ))}

@@ -189,13 +189,24 @@ html, body {
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 0.375rem 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: 0.25rem;
-  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 0.375rem;
+  background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  transition: all 0.3s ease;
+}
+
+.game-card:hover .game-platform {
+  background-color: rgba(43, 220, 210, 0.9);
+  transform: scale(1.1);
 }
 
 .game-content {
@@ -226,24 +237,57 @@ html, body {
 }
 
 /* Marquee / rotating lane animations for game rows */
+/* 
+ * SEAMLESS LOOPING ANIMATION IMPLEMENTATION
+ * 
+ * This implementation creates a truly seamless infinite loop by:
+ * 1. Duplicating the entire set of game cards in the DOM (done in page.jsx)
+ * 2. Animating translateX to move exactly 50% of the track width
+ * 3. Using 'linear' timing to ensure consistent smooth motion
+ * 4. Leveraging 'will-change: transform' for GPU acceleration
+ * 5. Setting animation-iteration-count to infinite for seamless looping
+ *
+ * The animation moves the first set of items off-screen while the duplicate
+ * set moves into view, creating the illusion of an endless scroll.
+ */
 @layer components {
+    /* Container that hides overflow and enables smooth scrolling */
     .marquee {
         overflow: hidden;
         width: 100%;
+        /* Prevent layout shift and flickering during animation */
+        position: relative;
     }
 
+    /* Track that holds the game cards and animates them */
     .marquee-track {
         display: flex;
         align-items: center;
         gap: 1rem;
+        /* GPU acceleration for smooth animation performance */
         will-change: transform;
+        /* Use backface-visibility to improve rendering performance */
+        backface-visibility: hidden;
+        /* Translate3d enables hardware acceleration */
+        transform: translate3d(0, 0, 0);
     }
 
+    /* 
+     * SEAMLESS SCROLL ANIMATION
+     * Translates the track by exactly -50% of its width
+     * The duplicated items allow the animation to loop seamlessly
+     * Without visible jumps or pauses
+     */
     @keyframes scroll-left {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+        0% { 
+            transform: translate3d(0, 0, 0);
+        }
+        100% { 
+            transform: translate3d(-50%, 0, 0);
+        }
     }
 
+    /* Animation speeds for different lane types */
     .marquee--slow .marquee-track {
         animation: scroll-left 40s linear infinite;
     }
@@ -256,27 +300,42 @@ html, body {
         animation: scroll-left 18s linear infinite;
     }
 
-    /* Make duplicates align seamlessly */
+    /* 
+     * Prevent game cards from shrinking to fit flex container
+     * This ensures consistent card sizes throughout the animation
+     */
     .marquee-track > * {
         flex-shrink: 0;
     }
 
+    /* Mobile optimizations */
     @media (max-width: 640px) {
         .marquee-track {
             gap: 0.75rem;
         }
+        /* Slower animations on mobile for better performance */
         .marquee--slow .marquee-track { animation-duration: 50s; }
         .marquee--medium .marquee-track { animation-duration: 36s; }
         .marquee--fast .marquee-track { animation-duration: 24s; }
     }
 
+    /* Desktop optimizations with increased gap */
     @media (min-width: 1024px) {
         .marquee-track {
             gap: 1.5rem;
         }
+        /* Adjusted durations for larger gap spacing */
         .marquee--slow .marquee-track { animation-duration: 45s; }
         .marquee--medium .marquee-track { animation-duration: 32s; }
         .marquee--fast .marquee-track { animation-duration: 22s; }
+    }
+
+    /* 
+     * Pause animation on hover for better UX
+     * Users can hover over cards to stop the scroll and interact
+     */
+    .marquee:hover .marquee-track {
+        animation-play-state: paused;
     }
 }
 
